@@ -1,0 +1,133 @@
+<script src="../simpletest.js"></script>
+<script>
+
+// arr.find(callback(element[, index[, array]])[, thisArg])
+// Protype implementation
+
+// parameters:
+// callback: function to execute on each value, taking 3 args
+// element: element being processed in array
+// index: index of current element (optional)
+// array: the array find was called upon (optional)
+// thisArg: Optional this to use when executing callback
+
+// Requirements:
+
+// It should execute a callback function once for each index of array
+// It should return the value of the element in the index that returns true
+// It should return undefined if there is no match.
+// It should invoke callback for every index from 0 to length - 1.
+// It should be invoked for indexes that have no Value.
+// It should use an option this argument.
+// It should use undefined if no optional this is provided.
+// It should not mutate the array on which its called.
+// It should create a new string.
+function  find(array, callback, optionalThis) {
+  let findCallback = callback;
+  let length = array.length;
+
+  if (optionalThis){
+    findCallback = callback.bind(optionalThis);
+  }
+  for (i = 0; i < length; i++){
+    if (findCallback(array[i], i, array)){
+      return array[i];
+    }
+  }
+
+  return undefined;
+
+};
+
+tests({
+  'It should run the callback on every index of array until it finds match': function(){
+    let counter = 0;
+    find([1, 2, 3], function(element){
+      if (element == 2){
+        return;
+      }
+      counter++;
+    });
+    eq(counter, 2);
+  },
+  'It should pass the ith element as the first argument to the callback': function(){
+    find([1], function(element){
+      eq(element,1);
+    });
+  },
+  'It should pass the ith position as the second argument to the callback': function(){
+    find([1],function(element,elementIndex){
+      eq(elementIndex, 0);
+    })
+  },
+  'It should pass the originalArray as the third argument to the callback': function(){
+    originalArray = [1, 2];
+    find(originalArray, function(element, elementIndex, array){
+      eq(array,originalArray);
+    });
+  },
+  'It should accept a configurable this object': function(){
+    find([1], function(){
+      eq(this.description, 'I am a configurable this object.');
+    }, {description:'I am a configurable this object.'});
+  },
+  'It should return the value of the first element in the array that evaluates to true via the callback': function(){
+    let result = find([1, 2, 3], function(num){
+      return num > 1;
+    });
+    console.log(result);
+    eq(result, 2);
+  },
+  'If no match, it should return undefined': function() {
+    let result = find([1], function(num){
+      num === 2;
+    });
+    eq(result,undefined)
+;  },
+  'It should be invoked for all indexes, not just those assigned values': function(){
+    let counter = 0;
+    find([,,,undefined, null], function(element){
+      counter++;
+    });
+    eq(counter, 5);
+  },
+  'It should visit deleted elements, and its value will be the value when find visits that elements index': function() {
+    var array = [0,1,,,,5,6];
+    var result = '';
+    find(array, function(value, index) {
+      if (index === 0) {
+        delete array[5];
+      }
+
+      if (index === 5) {
+        result = 'Visited index ' + index + ' with value ' + value;
+      }
+    });
+    eq(result, 'Visited index 5 with value undefined');
+  },
+  'It should not visit elements that are appened to the array after the call to find begins': function(){
+    let testArray = [1, 2, 3];
+    let counter = 0;
+    let result = find(testArray,function(element,index){
+      if (index > 2) {
+        testArray.push(4);
+      }
+      counter++;
+      return element > 3;
+    });
+    eq(counter, 3);
+    eq(result, undefined);
+  },
+  'It should not change the orignal array': function() {
+    let testArray = [1, 2];
+    find(testArray, function(num){
+      return num > 1;
+    });
+    eq(testArray.length, 2);
+    eq(testArray[0], 1);
+    eq(testArray[1],2);
+  }
+
+});
+
+</script>

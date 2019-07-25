@@ -1,0 +1,91 @@
+<script src="../tinytest.js"></script>
+<script>
+
+// Example 1:
+// filter([1,2,3], funtion() {});
+
+// Example 2:
+// filter([1,2,3], function(number) {
+//  console.log(number);
+// });
+
+// Example 3:
+// filter([1,2,3], function(number, index) {
+//  console.log(index);
+// });
+
+// Example 4:
+// filter([1,2,3], function(number, index, originalArray) {
+//  console.log(originalArray);
+// });
+
+// Example 5:
+// filter([1,2,3], function() {
+//  console.log(this.name);
+// }, {name: 'Zack'});
+
+// Example 6:
+// var testArray = [1, 2 ,3];
+// var filteredArray = filter(testArray, funtion(element) {
+// return element > 1;
+// });
+// Expect filteredArray to be [2,3];
+
+function filter(array, callback, optionalThisObject) {
+  var forEachCallback = callback;
+
+  if (optionalThisObject){
+    forEachCallback = callback.bind(optionalThisObject);
+  }
+  for (i = 0; i < array.length; i++){
+    if (forEachCallback(array[i], i, array) === true){
+
+    };
+  }
+}
+
+tests({
+
+  'It should run the callback function array.length times': function()  {
+    fail();
+  //   var numberOfTimesCallbackHasRun = 0;
+  //   filter([1,2,3], function() {
+  //     numberOfTimesCallbackHasRun++;
+  //   });
+  //   eq(numberOfTimesCallbackHasRun,3);
+  },
+  'It should pass in the ith element as the first argument to the callback.': function()  {
+    fail();
+    // filter([1], function(number) {
+    //   eq(number, 1);
+    // });
+  },
+  'It should pass in the position i as the second argument to the callback.': function()  {
+    fail();
+    // filter([1], function(number, index, originalArray){
+    //   eq(index, 0);
+    // });
+  },
+  'It should pass in the originalArray as the third argument in the callback.': function()  {
+    fail();
+    // testArray = [1,2,3]
+    // filter(testArray, function(number, index, originalArray){
+    //   eq(originalArray, testArray);
+    // });
+  },
+  'It should accept an optional this object.': function(){
+    fail();
+  //   filter([1], function(){
+  //     eq(this.description, 'I am a configurable this object');
+  //   }, {description: 'I am a configurable this object'});
+},
+'It should return an new array, not the array being filtered.': function(){
+
+  fail();
+},
+'It should return a new array that only has elements where callback() is true.': function() {
+
+  fail();
+},
+});
+</script>
