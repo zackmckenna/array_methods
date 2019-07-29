@@ -1,0 +1,50 @@
+<script src="../tinytest.js"></script>
+<script>
+
+//forEach([1,2,3], function(number, index, originalArray){
+//  console.log(index);
+//});
+
+function forEach(array, callback, optionThisObject) {
+  var forEachCallback = callback;
+
+  if (optionThisObject){
+    forEachCallback = callback.bind(optionThisObject);
+  }
+  for (i = 0; i < array.length; i++){
+    forEachCallback(array[i], i, array);
+  }
+}
+
+tests({
+
+  'It should run callback function array.length times': function()  {
+    var numberOfTimesCallbackHasRun = 0;
+    forEach([1,2,3], function() {
+      numberOfTimesCallbackHasRun++;
+    });
+    eq(numberOfTimesCallbackHasRun,3);
+  },
+  'It should pass in the ith element as the first argument to the callback': function()  {
+    forEach([1], function(number) {
+      eq(number, 1);
+    });
+  },
+  'It should pass in the position i as the seconbd argument to the callback.': function()  {
+    forEach([1], function(number, index, originalArray){
+      eq(index, 0);
+    });
+  },
+  'It should pass in the originalArray as the third argument in the callback.': function()  {
+    testArray = [1,2,3]
+    forEach(testArray, function(number, index, originalArray){
+      eq(originalArray, testArray);
+    });
+  },
+  'It should accept an optional this object': function(){
+    forEach([1], function(){
+      eq(this.description, 'I am a configurable this object');
+    }, {description: 'I am a configurable this object'});
+  }
+});
+</script>
