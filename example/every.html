@@ -1,0 +1,155 @@
+<script src="../simpletest.js"></script>
+<script>
+
+// arr.every(callback(element[, index[, array]])[, thisArg])
+
+// Parameters
+
+// callback
+// A function to test for each element, taking three arguments
+
+// element
+// The current element being processed in the array.
+
+// indexOptional
+// The index of the current element being processed in the array.
+
+// arrayOptional
+// The array every was called upon.
+
+// thisArgOptional
+// A value to use as this when executing callback.
+
+// Return Value:
+// true if the callback function returns a truthy value for every array element. Otherwise, false.
+function every(array, callback, optionalThis){
+  let length = array.length;
+  let everyCallback = callback;
+
+  if(optionalThis){
+    everyCallback = callback.bind(optionalThis);
+  }
+  for (let i = 0; i < length; i++){
+    if (i in array){
+      if(callback(array[i], i, array) === false){
+        return false;
+      }
+    }
+  }
+  return true;
+}
+
+tests({
+  'It should pass the ith element as the first argument to the callback.': function(){
+    every([1], function(element){
+      eq(element, 1);
+    });
+  },
+  'It should pass the ith index as the second element to the callback.': function(){
+    every([1], function(element, elementIndex){
+      eq(elementIndex, 0);
+    });
+  },
+  'It should pass in the original array as the third argument': function(){
+    let testArray = [1];
+    every(testArray, function(element, elementIndex, originalArray){
+      eq(originalArray, testArray);
+    });
+  },
+  'It should accept an optionalThis argument': function(){
+    every([], function() {
+      eq(this.description, 'I am a configurable this.')
+    },{description: 'I am a configurable this.'})
+  },
+  'It should execute the callback once for element until callback evaluates to false.': function(){
+    let counter = 0;
+    let result = every([1, 2, 3, 4], function(number){
+      counter++;
+      return number < 3;
+    });
+    eq(result, false);
+    eq(counter, 3)
+  },
+  'It should return false if one element does not pass callback test.': function(){
+    let result = every([1, 2], function(num){
+      return num < 1;
+    });
+    eq(result, false);
+  },
+  'It should not mutate the array on which every() is called': function(){
+    let testArray = [1, 2, 3];
+    every(testArray, function(num, index, array){
+    });
+    eq(testArray[0], 1);
+    eq(testArray[1], 2);
+    eq(testArray[2], 3);
+    eq(testArray.length, 3);
+  },
+  'It should not run on elements that are appended to the array after the call to every begins.': function(){
+    let testArray = [1, 2, 3];
+    let result = every(testArray, function(element, elementIndex, array){
+      if (element < 5){
+        array.push(4);
+      }
+      return element < 4;
+    });
+    eq(result, true);
+  },
+  'It should run the callback once for each element present in the array if no false value found.': function(){
+    let counter = 0;
+    every([1, 2, 3], function(num){
+      counter++;
+      return num < 4;
+    });
+    eq(counter, 3)
+  },
+  'If callback returns a falsy value, every() returns false.': function(){
+    let result = every([1, 2, 3], function(num){
+      return num < 3;
+    });
+    eq(result, false);
+  },
+  'If callback returns true for all elements, return true.': function(){
+    let result = every([1, 2, 3], function(num){
+      return num < 4;
+    });
+    eq(result, true);
+  },
+  'It should return true for an empty array.': function(){
+    let result = every([], function(){
+    });
+    eq(result, true);
+  },
+  'It can run on an array like object.': function(){
+    let objectArray = {
+      1: 'This',
+      2: 'is',
+      3: 'an',
+      4: 'object'
+    }
+    let result = every(objectArray, function(element){
+      typeof element === "string"
+    })
+    eq(result, true);
+  },
+  'It should not visit any element that is appened to the array after every() has been called': function(){
+    let array = [1];
+    let numberOfTimesCallbackHasRun = 0;
+    every(array, function(element, index, passedArray){
+        numberOfTimesCallbackHasRun++;
+        passedArray.push(2);
+    });
+    eq(numberOfTimesCallbackHasRun, 1);
+  },
+  'It should skip holes.': function(){
+    let counter = 0;
+    let testArray = [ , ,1, 2, , 3, 4]
+    let result = every(testArray, function(element){
+      counter++;
+      return element < 5;
+    });
+    eq(counter, Object.keys(testArray).length);
+  }
+});
+
+</script>
