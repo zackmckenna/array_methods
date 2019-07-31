@@ -1,4 +1,4 @@
-<h1>Zack McKenna's Array Methods for JavaScript</h1>
+Zack McKenna's Array Methods for JavaScript
 
 Here's some examples of JavaScript array methods build with the help of a small testing framework, as part of Gordon Zhu's Watch and Code course. The testing framework is a fork of jstinytest(https://github.com/joewalnes/jstinytest), with added DOM elements and an adjusted console log for clarity.
 

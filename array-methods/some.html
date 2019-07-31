@@ -1,0 +1,81 @@
+<script src="../simpletest.js"></script>
+<script>
+  function some(array, callback, thisObject) {
+    if (thisObject) {
+      callback = callback.bind(thisObject);
+    }
+    for (var i = 0; i < array.length; i++) {
+      if (i in array) {
+        if (callback(array[i], i, array)) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+  tests({
+    'It should run callback array.length times, until the callback returns true.': function () {
+      var testArray = [1, 2, 3, 4, 5];
+      var counter = 0;
+      some(testArray, function () {
+        counter++;
+      });
+      eq(counter, testArray.length);
+    },
+    'It should pass the current element as the first argument to callback.': function () {
+      some([1], function (ele) {
+        eq(ele, 1);
+      });
+    },
+    'It should pass the current index as the second argument to callback.': function () {
+      some([1], function (ele, index) {
+        eq(index, 0);
+      });
+    },
+    'It should pass the original array as the third argument to callback.': function () {
+      var testArray = [1, 2, 3, 4, 5];
+      some(testArray, function (ele, index, array) {
+        eq(array, testArray);
+      });
+    },
+    'It should accept an optional this object.': function () {
+      some([0], function () {
+        eq(this.description, "I am a configurable this object");
+      }, {description: 'I am a configurable this object'});
+    },
+    'It should return ture when callback returns true for any array element.': function () {
+      var testArray = [12, 5, 8, 1, 4];
+      var result = some(testArray, function isBiggerThan10(ele) {
+        return ele > 10;
+      });
+      eq(result, true);
+    },
+    'Otherwise, it should return false.': function () {
+      var testArray = [2, 5, 8, 1, 4];
+      var result = some(testArray, function isBiggerThan10(ele) {
+        return ele > 10;
+      });
+      eq(result, false);
+    },
+    'It should skip unassigned indexes.': function () {
+      var counter = 0;
+      var testArray = [,, 2, 5,, 8,,,undefined, 1, 4];
+      some(testArray, function () {
+        counter++;
+      });
+      eq(counter, 6);
+    },
+    'It can run on an array-like object.': function () {
+      var object = {
+        0: 0,
+        1: 1,
+        2: 2,
+        length: 3
+      };
+      var result = some(object, function isBiggerThan1(ele) {
+        return ele > 1;
+      });
+      eq(result, true);
+    }
+  });
+</script>
