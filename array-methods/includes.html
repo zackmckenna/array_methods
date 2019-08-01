@@ -1,0 +1,81 @@
+<script src="../simpletest.js"></script>
+<script>
+/*
+NATIVE DESCRIPTION
+The includes() method determines whether an array includes a certain value among its entries, returning true or false as appropriate
+
+PROTOTYPE:
+
+function includes(array, searchElement){
+
+  for (let i = 0; i < array.length, i++){
+
+    if (array[i] === searchElement){
+      return true;
+    }
+  }
+
+  return false;
+
+}
+
+Syntax:
+
+arr.includes(valueToFind[, fromIndex])
+
+Parameters:
+
+valueToFind
+
+The value to search for.
+
+Note: When comparing strings and characters, includes() is case-sensitive.
+
+fromIndex - Optional
+
+The position in this array at which to begin searching for valueToFind; the first character to be searched is found at fromIndex for positive values of fromIndex, or at array.length + fromIndex for negative values of fromIndex (using the absolute value of fromIndex as the number of characters from the end of the array at which to start the search). Defaults to 0.
+
+Return value:
+
+A Boolean which is true if the value valueToFind is found within the array (or the part of the array indicated by the index fromIndex, if specified). Values of zero are all considered to be equal regardless of sign (that is, -0 is considered to be equal to both 0 and +0), but false is not considered to be the same as 0.
+
+REQUIREMENTS:
+
+It should return the boolean value true if valueToFind is in array.
+It should return the boolean false if valueToFind is not in array.
+
+If fromIndex, it should begin searching starting from fromIndex.
+If fromIndex is greater than array.length, it should return false.
+If fromIndex is negative, it should still search the array.
+If fromIndex is negative, it should still search the array from front to back.
+If fromIndex is negative, it should be taken as an offset from the end of the array.
+
+
+It should return true if searchElement is NaN and array contains NaN.
+It should consider all values of zero to be equal.
+
+It should compare valueToFind and array elements using strict equals.
+*/
+
+tests({
+    'It should return true if valueToFind is in array': function () {
+        fail();
+    },
+    'It should return false if valueToFind is not in array': function () {
+        fail();
+    },
+    'It should return true if valueToFind is NaN and array contains Nan.': function () {
+        fail();
+    },
+    'It should consider all values of 0 to be equal.': function () {
+        fail();
+    },
+    'If fromIndex it should begin searching from fromIndex': function () {
+        fail();
+    },
+    '': function () {
+        fail();
+    }
+});
+
+</script>

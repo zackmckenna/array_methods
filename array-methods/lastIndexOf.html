@@ -1,0 +1,84 @@
+<script src="../simpletest.js"></script>
+<script>
+
+/*
+NATIVE DESCRIPTION
+The lastIndexOf() method returns the index within the calling String object of the last occurrence of the specified value, searching backwards from fromIndex. Returns -1 if the value is not found.
+
+Syntax
+
+str.lastIndexOf(searchValue[, fromIndex])
+
+Parameters
+
+searchValue
+A string representing the value to search for. If searchValue is an empty string, then fromIndex is returned.
+
+fromIndex - Optional
+The index of the last character in the string to be considered as the beginning of a match. The default value is +Infinity. If fromIndex >= str.length, the whole string is searched. If fromIndex < 0,  the behavior will be the same as if it would be 0.
+
+Return value
+
+The index of the last occurrence of the specified value; -1 if not found.
+
+REQUIREMENTS
+
+It should use strict equals (===) to search array.
+It found, it should return the last index at which it finds a match.
+If not found, it should return a -1.
+It should iterate through the array until a match is found.
+If fromIndex, it should start the search for the element at that index.
+If fromIndex is greater than or equal to array's length, -1 is returned and array is not searched.
+If fromIndex is a negative number, it is atake as the offset from the end of the array.
+
+*/
+
+function lastIndexOf(array, searchElement, fromIndex) {
+    var i = array.length - 1;
+    if (fromIndex) {
+        i = (fromIndex < 0) ? array.length - Math.abs(fromIndex) : fromIndex;
+        if (i < 0) {
+            return -1;
+        }
+    }
+    for (; i >= 0 ; i--) {
+        if (array[i] === searchElement) {
+            return i;
+        }
+    }
+    return -1;
+}
+
+
+tests({
+    'It should return the last index at which a given element can be found in the array.':function() {
+        let index = lastIndexOf([1,2,3,2], 2);
+        eq(index, 3);
+    },
+    'It should return -1 if no element equals searchElement.':function() {
+        let index = lastIndexOf([1,2,3], 5);
+        eq(index, -1);
+    },
+    'It should compare the elements of the array and the searchElement using strict equality (===).':function() {
+        let index = lastIndexOf([1,2,3], '1');
+        eq(index, -1);
+    },
+    'If fromIndex, it should begin searching starting from fromIndex.':function() {
+        let index = lastIndexOf([1,2,3,4,2], 2, 3);
+        eq(index, 1);
+    },
+    'If fromIndex is greater than or equal to array.length, it should still search the array.':function() {
+        let index = lastIndexOf([1,2,3], 2, 3);
+        eq(index, 1);
+    },
+    'If fromIndex is negative, it should be taken as an offset from the end of the array.':function() {
+        let index = lastIndexOf([1,2,3,2], 2, -2)
+        eq(index, 1);
+    },
+    'If the calculated index is less than zero, it should return -1': function() {
+        let index = lastIndexOf([1,2,3,2], 2, -5)
+        eq(index, -1);
+    }
+});
+
+</script>
