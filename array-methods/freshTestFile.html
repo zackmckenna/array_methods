@@ -3,83 +3,50 @@
   /*
   NATIVE DESCRIPTION
 
-  The slice() method returns a shallow copy of a portion of an array into a new array object selected from begin to end (end not included) where begin and end represent the index of items in that array. The original array will not be modified.
+  The join() method creates and returns a new string by concatenating all of the elements in an array (or an array-like object), separated by commas or a specified separator string. If the array has only one item, then that item will be returned without using the separator.
 
-  Syntax:
+SYNTAX:
 
-  arr.slice([begin[, end]])
+arr.join([separator])
 
-  Parameters
+Parameters
 
-  begin - Optional
+separator - Optional
+Specifies a string to separate each pair of adjacent elements of the array. The separator is converted to a string if necessary. If omitted, the array elements are separated with a comma (","). If separator is an empty string, all elements are joined without any characters in between them.
 
-  Zero-based index at which to begin extraction.
-  A negative index can be used, indicating an offset from the end of the sequence. slice(-2) extracts the last two elements in the sequence.
-  If begin is undefined, slice begins from index 0.
-  If begin is greater than the length of the sequence, an empty array is returned.
+Return value
 
-  end - Optional
+A string with all array elements joined. If arr.length is 0, the empty string is returned.
 
-  Zero-based index before which to end extraction. slice extracts up to but not including end.
-  For example, slice(1,4) extracts the second element through the fourth element (elements indexed 1, 2, and 3).
-  A negative index can be used, indicating an offset from the end of the sequence. slice(2,-1) extracts the third element through the second-to-last element in the sequence.
-  If end is omitted, slice extracts through the end of the sequence (arr.length).
-  If end is greater than the length of the sequence, slice extracts through to the end of the sequence (arr.length).
-
-  Return value
-
-  A new array containing the extracted elements.
-
-  REQUIREMENTS:
-
-  If no begin, slice should start at index 0
-  If begin, slice should start at index begins
-  If begin is negative, it should start at the indicated offset from the end of the array.
-
-  If begin is greater than length of sequence, an empty array is returned.
-
-  If end, slice should extract up to, but not including index end.
-  If end is negative, it should slice up to the offset from the end of the sequence.
-  If end is greater than length of sequence, or end is omitted slice extracts through to the end of sequence (arr.length)
   */
-function slice(array) {
-  let newArray;
-  for (i = 0; i < array.length; i++){
-    newArray.push(array[i]);
-  }
-  return newArray;
-}
+
 
 tests({
-    'It should create a new Array object.': function () {
-        let isArray = false;
-        let result = slice([0]);
-        isArray = result instanceof Array;
-        eq(result, true);
-
+    '': function () {
+      fail();
     },
-    'It should not modify the original array.': function () {
+    '': function () {
         fail();
     },
-    'If begin, it should start at begin': function () {
+    '': function () {
         fail();
     },
-    'If no value for begin, slice should start at index 0': function () {
+    '': function () {
         fail();
     },
-    'If begin is negative, it should indicate an offset from the end of the sequence': function () {
+    '': function () {
         fail();
     },
-    'If begin is greater than array.length, an empty array is returned.': function () {
+    '': function () {
         fail();
     },
-    'If end, slice should extract up to but not including end.': function () {
+    '': function () {
         fail();
     },
-    'If end is omitted, or end is greater than array.length, it extracts through the end of the sequence.': function () {
+    '': function () {
         fail();
     },
-    'The original array should remain unchanged.': function () {
+    '': function () {
         fail();
     }
 });

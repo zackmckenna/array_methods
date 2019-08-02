@@ -1,0 +1,75 @@
+<script src="../simpletest.js"></script>
+<script>
+  /*
+  NATIVE DESCRIPTION
+
+  The join() method creates and returns a new string by concatenating all of the elements in an array (or an array-like object), separated by commas or a specified separator string. If the array has only one item, then that item will be returned without using the separator.
+
+SYNTAX:
+
+arr.join([separator])
+
+Parameters
+
+separator - Optional
+Specifies a string to separate each pair of adjacent elements of the array. The separator is converted to a string if necessary. If omitted, the array elements are separated with a comma (","). If separator is an empty string, all elements are joined without any characters in between them.
+
+Return value
+
+A string with all array elements joined. If arr.length is 0, the empty string is returned.
+
+It should join all array elements into one String
+
+If separator, it should use the separator by which to join elements of the array.
+The separator should be converted to a string if necessary.
+If no separator, array elements are separted with a (',').
+If separator is an empty string, all elements are joined without any characters between them.
+If an element is undefined or null, it is converted to an empty string.
+
+  */
+function join(array, separator) {
+    if (array.length === 0){
+      return '';
+    }
+    newString = '';
+    let joiner = ',';
+    if (separator){
+     joiner = separator;
+    }
+    for (i = 0; i < array.length; i++){
+      if (i === array.length - 1){
+        newString += array[i];
+      } else {
+         newString += array[i] + joiner;
+      }
+    }
+    return newString;
+}
+
+tests({
+    'It should return a string.': function () {
+      let isString = false;
+      let result = join(['Hello', 'World']);
+      isString = typeof result === 'string';
+      eq(isString, true);
+    },
+    'If no separator, it should return a string of elements separted by a comma': function () {
+        let result = join([1, 2, 3]);
+        eq(result, '1,2,3')
+    },
+    'If separator, it should return a string of elements separated by specified separator.': function () {
+        let result = join([1, 2, 3], '-');
+        eq(result, '1-2-3');
+    },
+    'If array is empty it should return an empty string.': function () {
+        let result = join([]);
+        eq(result, '');
+    },
+    'It should not add the separator after the last joined string': function () {
+      let result = join([1, 2, 3]);
+      eq(result, '1,2,3')
+  }
+
+});
+
+</script>
