@@ -1,5 +1,115 @@
 <script src="../simpletest.js"></script>
 <script>
+  /*
+  NATIVE DESCRIPTION
 
+  The slice() method returns a shallow copy of a portion of an array into a new array object selected from begin to end (end not included) where begin and end represent the index of items in that array. The original array will not be modified.
+
+  Syntax:
+
+  arr.slice([begin[, end]])
+
+  Parameters
+
+  begin - Optional
+
+  Zero-based index at which to begin extraction.
+  A negative index can be used, indicating an offset from the end of the sequence. slice(-2) extracts the last two elements in the sequence.
+  If begin is undefined, slice begins from index 0.
+  If begin is greater than the length of the sequence, an empty array is returned.
+
+  end - Optional
+
+  Zero-based index before which to end extraction. slice extracts up to but not including end.
+  For example, slice(1,4) extracts the second element through the fourth element (elements indexed 1, 2, and 3).
+  A negative index can be used, indicating an offset from the end of the sequence. slice(2,-1) extracts the third element through the second-to-last element in the sequence.
+  If end is omitted, slice extracts through the end of the sequence (arr.length).
+  If end is greater than the length of the sequence, slice extracts through to the end of the sequence (arr.length).
+
+  Return value
+
+  A new array containing the extracted elements.
+
+  REQUIREMENTS:
+
+  If no begin, slice should start at index 0
+  If begin, slice should start at index begins
+  If begin is negative, it should start at the indicated offset from the end of the array.
+
+  If begin is greater than length of sequence, an empty array is returned.
+
+  If end, slice should extract up to, but not including index end.
+  If end is negative, it should slice up to the offset from the end of the sequence.
+  If end is greater than length of sequence, or end is omitted slice extracts through to the end of sequence (arr.length)
+  */
+function slice(array, begin, end) {
+  let newArray = [];
+  let startingIndex = 0;
+  let endIndex = array.length;
+  if (begin){
+    if (begin < 0){
+      startingIndex = array.length - Math.abs(begin);
+    } else if (begin > array.length){
+      return [];
+    } else {
+      startingIndex = begin;
+    }
+  }
+  if (end){
+    if (end > array.length){
+      endIndex = array.length;
+    } else {
+      endIndex = end;
+    }
+  }
+  for (i = startingIndex; i < endIndex; i++){
+    newArray.push(array[i]);
+  }
+  return newArray;
+}
+
+tests({
+    'It should create a new Array object.': function () {
+        let isArray = false;
+        let result = slice([0]);
+        isArray = result instanceof Array;
+        eq(isArray, true);
+
+    },
+    'It should not modify the original array.': function () {
+      originalArray = [1, 2];
+      let result = slice([originalArray]);
+      eq(originalArray[0], 1);
+      eq(originalArray[1], 2);
+    },
+    'If begin, it should start at begin': function () {
+        let result = slice([1, 2], 1);
+        eq(result[0], 2);
+        eq(result.length, 1);
+    },
+    'If no value for begin, slice should start at index 0': function () {
+        let result = slice([1, 2]);
+        eq(result[0], 1);
+        eq(result[1], 2);
+    },
+    'If begin is negative, it should indicate an offset from the end of the sequence': function () {
+        let result = slice([1, 2], -1);
+        eq(result[0], 2);
+        eq(result.length, 1);
+    },
+    'If begin is greater than array.length, an empty array is returned.': function () {
+        let result = slice([1], 1);
+        eq(result.length, 0);
+    },
+    'If end, slice should extract up to but not including end.': function () {
+        let result = slice([1, 2], 0, 1);
+        eq(result.length, 1);
+        eq(result[0], 1);
+    },
+    'If end is omitted, or end is greater than array.length, it extracts through the end of the sequence.': function () {
+        let result = slice([1, 2, 3, 4], 0, 8);
+        eq(result.length, 4);
+    }
+});
 
 </script>
