@@ -1,0 +1,56 @@
+<script src="../simpletest.js"></script>
+<script>
+  /*
+NATIVE DESCRIPTION
+
+The pop() method removes the last element from an array and returns that element. This method changes the length of the array.
+
+Syntax
+
+arr.pop()
+
+Return value
+
+The removed element from the array; undefined if the array is empty.
+
+The pop method removes the last element from an array and returns that value to the caller.
+
+pop is intentionally generic; this method can be called or applied to objects resembling arrays. Objects which do not contain a length property reflecting the last in a series of consecutive, zero-based numerical properties may not behave in any meaningful manner.
+
+If you call pop() on an empty array, it returns undefined.
+
+Array.prototype.shift() has similar behavior to pop, but applied to the first element in an array.
+
+REQUIREMENTS:
+
+It should remove the last element of an array.
+It should return the element that was removed.
+It should return undefined if called on an empty array.
+  */
+function pop(array) {
+  if (array.length <= 0){
+    return undefined;
+  }
+  let popped = array[array.length - 1];
+  array.length--;
+  return popped;
+}
+
+tests({
+    'It should remove the last element of an array': function () {
+      let testArray = [1, 2];
+      pop(testArray);
+      eq(testArray.length, 1);
+      eq(testArray[0], 1);
+    },
+    'It should return the element that was removed': function () {
+        let result = pop(['remove', 'me']);
+        eq(result, 'me');
+    },
+    'It should return undefined if called on an empty array.': function () {
+        let result = pop([]);
+        eq(result, undefined);
+    }
+});
+
+</script>
