@@ -1,0 +1,78 @@
+<script src="../simpletest.js"></script>
+<script>
+  /*
+NATIVE DESCRIPTION
+
+The push() method adds one or more elements to the end of an array and returns the new length of the array.
+
+arr.push(element1[, ...[, elementN]])
+
+function push(array, element(s)){
+  array[array.length] = element;
+  return array.length;
+}
+
+Parameters
+
+element N
+The elements to add to the end of the array.
+
+Return value
+
+The new length property of the object upon which the method was called.
+
+REQUIREMENTS:
+
+It should use the length property to determine where to insert the given values.
+It should append values to an array.
+If there is no element, it should not make any changes and return array.length.
+If the element is an array, it should appened its elements to the main array.
+If the length can not be converted into a number, the index used is 0.
+If there is no length, length is created.
+  */
+
+function push(array, ...elements) {
+
+  elements.forEach(function(element){
+      if (element instanceof Array){
+        element.forEach(function(el){
+          array[array.length]= el;
+        });
+      }
+      array[array.length] = element;
+    });
+  return array.length;
+}
+
+
+tests({
+    'It should append elements to an array.': function () {
+      let testArray = [1];
+      push(testArray, 2);
+      eq(testArray[0], 1);
+      eq(testArray[1], 2);
+    },
+    'It should return array.length.': function (){
+      let result = push([1], 1);
+      eq(result, 2);
+    },
+    'If no element, it shold not make any changes to the array.': function () {
+      let testArray = [1];
+      let result = push(testArray);
+      eq(testArray[0], 1);
+      eq(testArray.length, 1);
+    },
+    'If there are multiple elements, it should append all elements.': function () {
+      let testArray = [1];
+      push(testArray, 2, 3);
+      eq(testArray.length, 3);
+    },
+    'If element is an array, it should append its elements to the main array.': function () {
+        let testArray = [1];
+        let result = push(testArray, [2]);
+        eq(testArray[0], 1);
+        eq(testArray[1], 2);
+    }
+});
+
+</script>
