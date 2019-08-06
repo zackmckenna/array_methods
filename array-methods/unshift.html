@@ -1,0 +1,63 @@
+<script src="../simpletest.js"></script>
+<script>
+  /*
+NATIVE DESCRIPTION
+
+arr.unshift(element1[, ...[, elementN]])
+
+Parameters
+
+element N
+The elements to add to the front of the array.
+
+Return value
+
+The new length property of the object upon which the method was called.
+
+The unshift method inserts the given values to the beginning of an array-like object.
+
+unshift is intentionally generic; this method can be called or applied to objects resembling arrays. Objects which do not contain a length property reflecting the last in a series of consecutive, zero-based numerical properties may not behave in any meaningful manner.
+
+Please note that, if multiple elements are passed as parameters, they're inserted in chunk at the beginning of the object, in the exact same order they were passed as parameters. Hence, calling unshift with n arguments once, or calling it n times with 1 argument (with a loop, for example), don't yield the same results.
+
+REQUIREMENTS:
+
+It should insert the given values to the beginning of an array object.
+It should return the length of the new array.
+If the element is an array object, it should add them all to the beginning of the array.
+  */
+function unshift(array, ...elements) {
+    let length = array.length;
+    let offset = elements.length;
+
+    for (let i = length - 1; i >= 0; i--){
+      array[i + offset] = array[i];
+    }
+    let i = 0;
+
+    elements.forEach(function(element){
+      array[i] = element;
+      i++;
+    });
+    return array.length;
+}
+
+tests({
+    'It should insert the given values to the beginning of the array.': function () {
+        let arrayToAdd = [1, 2];
+        let testArray = [2];
+        unshift(testArray, arrayToAdd);
+        let result = unshift(testArray, arrayToAdd);
+        eq(result, 3);
+    },
+    'It should return the length of the new array.': function () {
+        let result = unshift([3], 1, 2);
+        eq(result, 3);
+    },
+    'If there are more than one elements, it should add them all to the array.': function () {
+        let result = unshift([4], 1, 2, 3);
+        eq(result, 4);
+    }
+});
+
+</script>
